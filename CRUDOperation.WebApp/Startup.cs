@@ -6,6 +6,9 @@ using CRUDOperation.Configurations;
 using AutoMapper;
 using System;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Identity;
+using CRUDOperation.DatabaseContext;
+using Microsoft.EntityFrameworkCore;
 
 namespace CRUDOperation.WebApp
 {
@@ -15,12 +18,53 @@ namespace CRUDOperation.WebApp
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            
+            /* Using for Regisration user...login and logout */
+
+            services.AddDbContext<CRUDOperationDbContext>(options =>
+            options.UseSqlServer("Server=(local);Database=CRUDOperation_Auth; Integrated Security=true"));
+            services.AddDefaultIdentity<IdentityUser>()
+                .AddDefaultUI()
+                .AddEntityFrameworkStores<CRUDOperationDbContext>();
+            /*--------End--------*/
             ServicesConfigurations.ConfigureServices(services);
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            services.AddMvc();
 
+            /* Using for Regisration user...login and logout */
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings.
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 6;
+                //options.Password.RequiredUniqueChars = 1;
+
+                // Lockout settings.
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
+
+                // User settings.
+                options.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = false;
+            });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+
+                options.LoginPath = "/Identity/Account/Login";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                options.SlidingExpiration = true;
+            });
+
+            /*-------End-----------*/
+            //services.AddMvc();
             services.AddMvc().AddMvcOptions
                 (options =>
                 {
@@ -43,6 +87,7 @@ namespace CRUDOperation.WebApp
 
             app.UseSession(); //using for AddToCart
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
 
             //app.UseMvc(routes =>

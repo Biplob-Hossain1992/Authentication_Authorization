@@ -4,14 +4,16 @@ using CRUDOperation.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CRUDOperation.DatabaseContext.Migrations
 {
     [DbContext(typeof(CRUDOperationDbContext))]
-    partial class CRUDOperationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190928205744_Identity_Init")]
+    partial class Identity_Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

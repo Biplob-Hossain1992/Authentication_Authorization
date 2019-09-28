@@ -12,6 +12,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CRUDOperation.Abstractions.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CRUDOperation.WebApp.Controllers
 {
@@ -22,7 +23,7 @@ namespace CRUDOperation.WebApp.Controllers
 
         private readonly IMapper _mapper;
 
-        private readonly CRUDOperation.DatabaseContext.CRUDOperationDbContext _db; //Search Facilities
+        //private readonly CRUDOperation.DatabaseContext.CRUDOperationDbContext _db; //Search Facilities
 
         public ProductController(IProductManager productManager, ICategoryManager categoryManager, IMapper mapper)
         {
@@ -31,9 +32,10 @@ namespace CRUDOperation.WebApp.Controllers
 
             _mapper = mapper;
 
-            _db = new CRUDOperation.DatabaseContext.CRUDOperationDbContext(); //Search Facilities
+            //_db = new CRUDOperation.DatabaseContext.CRUDOperationDbContext(); //Search Facilities
         }
 
+        [AllowAnonymous]
         public IActionResult Index(string searchBy, string search,double price) //Search Facilities
         {
             //return View(_db.Products.Where(x => x.Name.StartsWith(search) || search == null).ToList());
@@ -55,6 +57,7 @@ namespace CRUDOperation.WebApp.Controllers
 
             return View(model);
         }
+        [Authorize]
         public IActionResult ProductListIndex()
         {
             var products = _productManager.GetAll();
