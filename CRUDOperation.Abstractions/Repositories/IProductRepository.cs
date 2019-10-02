@@ -15,5 +15,7 @@ namespace CRUDOperation.Abstractions.Repositories
         ICollection<Product> GetByPrice(double price);
         ICollection<Product> GetByName(string name);
         ICollection<Product> GetByCategory(string categoryName);
+
+        //ICollection<Product> GetById(long id);
     }
 }

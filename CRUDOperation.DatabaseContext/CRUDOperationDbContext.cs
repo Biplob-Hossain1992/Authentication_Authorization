@@ -34,7 +34,7 @@ namespace CRUDOperation.DatabaseContext
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder
-                .UseLazyLoadingProxies(false)
+                .UseLazyLoadingProxies(true)
                 .UseSqlServer("Server=(local);Database=CRUDOperation_Auth; Integrated Security=true");
         }
 

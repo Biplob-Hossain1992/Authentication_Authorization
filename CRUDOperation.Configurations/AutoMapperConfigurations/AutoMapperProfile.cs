@@ -17,7 +17,7 @@ namespace CRUDOperation.Configurations.AutoMapperConfigurations
             CreateMap<CustomerCreateViewModel,Customer>();
             CreateMap<Customer,CustomerCreateViewModel>();
             CreateMap<ProductCreateViewModel, Product>();
-            CreateMap<Product, ProductCreateViewModel>().ForMember(vm => vm.CategoryName, map => map.MapFrom(m => m.Category.Name));
+            CreateMap<Product, ProductCreateViewModel>();/*.ForMember(vm => vm.CategoryName, map => map.MapFrom(m => m.Category.Name));*/
             CreateMap<StockCreateViewModel, Stock>();
             CreateMap<Stock, StockCreateViewModel>();
 

@@ -7,7 +7,10 @@ namespace CRUDOperation.Models
 {
     public class Product
     {
-        
+        public Product()
+        {
+                
+        }
         public long Id { get; set; }
 
         [Required(ErrorMessage = "Please Enter the Product Name!")]

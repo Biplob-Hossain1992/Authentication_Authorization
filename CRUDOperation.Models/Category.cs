@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace CRUDOperation.Models
@@ -14,6 +16,13 @@ namespace CRUDOperation.Models
         public long Id { get; set; }
         public string Name { get; set; }
 
+        public long? ParentId { get; set; }
+        public virtual Category Parent { get; set; }
+
+        [InverseProperty("Parent")]
+        public virtual List<Category> Childs { get; set; }
+
+        [JsonIgnore] //used for Jsonloop Handling ignore
         public virtual List<Product> Products { get; set; }
     }
 }

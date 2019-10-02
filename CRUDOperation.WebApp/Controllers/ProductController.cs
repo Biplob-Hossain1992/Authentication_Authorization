@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using CRUDOperation.Models;
-using CRUDOperation.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,8 +10,8 @@ using AutoMapper;
 using System.IO;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CRUDOperation.Abstractions.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using CRUDOperation.Models.APIViewModels;
 
 namespace CRUDOperation.WebApp.Controllers
 {
@@ -22,6 +21,7 @@ namespace CRUDOperation.WebApp.Controllers
         private readonly ICategoryManager _categoryManager;
 
         private readonly IMapper _mapper;
+
 
         //private readonly CRUDOperation.DatabaseContext.CRUDOperationDbContext _db; //Search Facilities
 
@@ -70,6 +70,8 @@ namespace CRUDOperation.WebApp.Controllers
             var products = _productManager.GetAll();
             var model = new ProductCreateViewModel();
             model.ProductList = products.ToList();
+
+
             PopulateDropdownList(); /*Dropdown List Binding*/
             return View(model);
         }
@@ -113,11 +115,6 @@ namespace CRUDOperation.WebApp.Controllers
             return View(model);
         }
 
-        //public PartialViewResult ProductListPartial()
-        //{
-        //    var products = _productRepository.GetAll();
-        //    return PartialView("Product/_ProductList", products);
-        //}
 
         private void PopulateDropdownList(object selectList=null) /*Dropdown List Binding*/
         {
@@ -222,6 +219,28 @@ namespace CRUDOperation.WebApp.Controllers
 
         }
 
+
+        public IActionResult Show()
+        {
+            return View();
+        }
+        public IActionResult GetProductPartial(long id)
+        {
+            var product = _productManager.GetById(id);
+            if (product == null)
+            {
+                return null;
+            }
+            var productDto = _mapper.Map<ProductDto>(product);
+            return PartialView("Product/_ProductDetails", productDto);
+
+        }
+
+
+        public IActionResult Variants()
+        {
+            return View();
+        }
         
     }
 }

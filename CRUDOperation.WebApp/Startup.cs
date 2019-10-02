@@ -26,6 +26,8 @@ namespace CRUDOperation.WebApp
                 .AddDefaultUI()
                 .AddEntityFrameworkStores<CRUDOperationDbContext>();
             /*--------End--------*/
+            //services.ConfigureServicesForCRUDOperation(); //bhaiya using
+
             ServicesConfigurations.ConfigureServices(services);
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -65,7 +67,8 @@ namespace CRUDOperation.WebApp
 
             /*-------End-----------*/
             //services.AddMvc();
-            services.AddMvc().AddMvcOptions
+            services.AddMvc()
+                .AddMvcOptions
                 (options =>
                 {
                     options.RespectBrowserAcceptHeader = true;

@@ -28,6 +28,7 @@ namespace CRUDOperation.Repositories
                       .Include(c => c.Category)
                       .ToList();
         }
+
         public List<Product> GetByCategory(int categoryId) /*Dropdown List Binding*/
         {
             return _db.Products
@@ -79,17 +80,17 @@ namespace CRUDOperation.Repositories
         public ICollection<Product> GetByPrice(double price)
         {
             return _db.Products.Where(p => p.Price <= price).ToList();
-        }
+        }  //Just Implemented GetByCriteria method
 
         public ICollection<Product> GetByName(string name)
         {
             return _db.Products.Where(p => p.Name.Contains(name)).ToList();
-        }
+        }  //Just Implemented GetByCriteria method
 
         public ICollection<Product> GetByCategory(string categoryName)
         {
             return _db.Products.Where(p => p.Category.Name == categoryName).ToList();
-        }
+        } //Just Implemented GetByCriteria method
     }
 }
 

@@ -15,7 +15,6 @@
             <th>Action</th>
         </tr>
 
-
     </thead>
     <tbody>
         @foreach (var product in ViewBag.cart)
@@ -28,7 +27,7 @@
                 <td>@product.product.Name</td>
                 <td>@product.product.Price ৳</td>
                 <td>@product.product.ExpireDate</td>
-                <td>@product.product.CategoryId</td>
+                <td>@product.product.Category.Name</td>
                 <td>@product.Quantity</td>
                 <td>@(product.product.Price * product.Quantity)</td>
                 <td align="center">

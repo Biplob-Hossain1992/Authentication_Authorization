@@ -5,10 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20190928202819_Identity_Init.cs" />
-    <Compile Remove="Migrations\20190928202819_Identity_Init.Designer.cs" />
-    <Compile Remove="Migrations\20190928205604_Identity_Init.cs" />
-    <Compile Remove="Migrations\20190928205604_Identity_Init.Designer.cs" />
+    <Compile Remove="Migrations\20191001140116_Application user extended.cs" />
+    <Compile Remove="Migrations\20191001140116_Application user extended.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

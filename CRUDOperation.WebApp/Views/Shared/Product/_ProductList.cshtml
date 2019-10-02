@@ -24,8 +24,6 @@
                 <th>Category Name</th>
                 <th>Images</th>
                 <th>Action</th>
-
-
             </tr>
         </thead>
         <tbody>
@@ -37,6 +35,7 @@
                     <td>@product.ExpireDate</td>
                     <td>@product.IsActive</td>
                     <td>@product.Category.Name</td>
+
                     <td style="width:60px;">
                         @{ @*Display Image*@
 
@@ -52,16 +51,11 @@
                                 <img src="~/img/default.jpg" style="height:50px; width: 50px;" />
                             }
                         }
-
-
                     </td>
-                    
-
                     <td>
                         <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-success"><span><strong><i class="fa fa-edit"> Edit</i></strong></span></a>
-                        <a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger" onclick="return confirm('Are you sure ,You want to delete ? Product : @product.Name')" id="Delete"><span><i class="fa fa-trash-o"><strong> Delete</strong></i></span></a>
+                        <a asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger" onclick="return confirm('Are you sure ,You want to delete ? Product : @product.Name')" id="Delete"><span><i class="fa fa-trash-o"><strong> Delete</strong></i></span></a>
                         <a asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary"><span><i class="fa fa-align-justify"><strong> Details</strong></i></span></a>
-
                     </td>
                 </tr>
             }

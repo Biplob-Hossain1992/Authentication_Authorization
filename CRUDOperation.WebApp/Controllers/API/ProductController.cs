@@ -28,36 +28,36 @@ namespace CRUDOperation.WebApp.Controllers.API
         [HttpGet]
         public IActionResult Get([FromQuery] ProductSearchCriteriaVM criteria) //Just serach facilities GetByCriteria method
         {
-            var products = _productManager.GetByCriteria(criteria)
+            var products = _productManager.GetByCriteria(criteria);
 
-
-            //if (products != null && products.Any())
-            //{
-            //    var productCreateViewModels = _mapper.Map<ICollection<ProductDto>>(products);
-            //    return Ok(productCreateViewModels);
-            //}
-
-            //return NoContent();
-            .Select(p => new
-             {
-                 p.Id,
-                 p.Name,
-                 Category = new
-                 {
-                     CategoryId = p.Category.Id,
-                     CategoryName = p.Category.Name
-                 },
-                 p.IsActive,
-                 p.ExpireDate,
-                 p.Price,
-                 p.ImageUrl
-             });
 
             if (products != null && products.Any())
             {
-                return Ok(products);
+                var productCreateViewModels = _mapper.Map<ICollection<ProductDto>>(products);
+                return Ok(productCreateViewModels);
             }
+
             return NoContent();
+            //.Select(p => new //if i want to show data like this format in browser then need this select option
+            // {
+            //     p.Id,
+            //     p.Name,
+            //     Category = new
+            //     {
+            //         CategoryId = p.Category.Id,
+            //         CategoryName = p.Category.Name
+            //     },
+            //     p.IsActive,
+            //     p.ExpireDate,
+            //     p.Price,
+            //     p.ImageUrl
+            // });
+
+            //if (products != null && products.Any())
+            //{
+            //    return Ok(products);
+            //}
+            //return NoContent();
         }
 
         [HttpGet("{id}")]

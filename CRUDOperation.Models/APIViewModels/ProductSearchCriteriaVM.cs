@@ -10,5 +10,7 @@ namespace CRUDOperation.Models.APIViewModels
         public string Name { get; set; }
         public double FromPrice { get; set; }
         public double ToPrice { get; set; }
+
+        public long CategoryId { get; set; }
     }
 }
