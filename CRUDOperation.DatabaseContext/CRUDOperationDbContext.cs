@@ -28,6 +28,9 @@ namespace CRUDOperation.DatabaseContext
         public DbSet<Category> Categories { get; set; }
         public DbSet<Stock> Stocks { get; set; }
 
+        public DbSet<Variant> Variants { get; set; }
+        public DbSet<Size> Sizes { get; set; }
+
         //public DbSet<Order> Orders { get; set; }
         //public object Product { get; set; }
 

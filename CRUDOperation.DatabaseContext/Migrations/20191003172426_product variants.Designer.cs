@@ -4,14 +4,16 @@ using CRUDOperation.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CRUDOperation.DatabaseContext.Migrations
 {
     [DbContext(typeof(CRUDOperationDbContext))]
-    partial class CRUDOperationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191003172426_product variants")]
+    partial class productvariants
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,7 +78,7 @@ namespace CRUDOperation.DatabaseContext.Migrations
 
                     b.Property<double>("Price");
 
-                    b.Property<long?>("VariantId");
+                    b.Property<long>("VariantId");
 
                     b.HasKey("Id");
 
@@ -132,7 +134,7 @@ namespace CRUDOperation.DatabaseContext.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<long?>("SizeId");
+                    b.Property<long>("SizeId");
 
                     b.HasKey("Id");
 
@@ -322,7 +324,8 @@ namespace CRUDOperation.DatabaseContext.Migrations
 
                     b.HasOne("CRUDOperation.Models.Variant", "Variant")
                         .WithMany("Products")
-                        .HasForeignKey("VariantId");
+                        .HasForeignKey("VariantId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CRUDOperation.Models.Stock", b =>
@@ -337,7 +340,8 @@ namespace CRUDOperation.DatabaseContext.Migrations
                 {
                     b.HasOne("CRUDOperation.Models.Size")
                         .WithMany("Variants")
-                        .HasForeignKey("SizeId");
+                        .HasForeignKey("SizeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -17,7 +17,8 @@
                     <div class="form-group">
                         <h3><label for="categoryDropDown" class="col-md-2"><b>Variants</b></label></h3>
                         <div class="col-md-6">
-                            <p>Choose up to three variable attributes for this product to create and manage SKUs and their inventory levels.
+                            <p>
+                                Choose up to three variable attributes for this product to create and manage SKUs and their inventory levels.
                             </p>
                         </div>
                     </div>
@@ -37,27 +38,46 @@
                 <input type="text" class="form-control" id="introText">
             </div>
         </div>
+
+        
+
         <div class="col-md-3">
-            <button id="btnShowModal" type="button" class="btn btn-primary btn-row  fa fa-plus-square">  <b>Add another Attributes</b></button>
+            <button id="btnShow" type="button" class="btn btn-primary btn-row  fa fa-plus-square">  <b>Add another Attributes</b></button>
             <h4><b>This product has 0 variants.</b></h4>
         </div>
-        
+
     </div>
 </div>
 
 @section Scripts{
 
-    <script src="~/jquery/jquery-3.4.1.min.js"></script>
+    
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(document).ready(() => {
+            //variant dropdown load
+            $.ajax(
+                {
+                    url: "/api/variants",
+                    type: "GET",
+                    accept: "application/json",
+                    success: (variants) => {
+                        var attribueDD = $('#attributeDropDown');
+                        attribueDD.append('<option>Select...</option>');
+                        $.each(variants, (index, variant) => {
+                            var option = "<option value='" + variant.id + "'>" + variant.name + "</option>";
+                            attribueDD.append(option);
+                        });
+                    },
+                    error: (response) => {
 
-            $("#btnShowModal").click(function () {
-                $("#attributeDropDown").show();
-                $("#introText").show();
-            });
+                    }
+
+                });
+
+            
         });
-    </script>
 
+    </script>
 }
 
 

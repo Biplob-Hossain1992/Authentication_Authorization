@@ -27,6 +27,9 @@ namespace CRUDOperation.Configurations
 
             services.AddTransient<IStockManager, StockManager>();
             services.AddTransient<IStockRepository, StockRepository>();
+
+            services.AddTransient<IVariantManager, VariantManager>();
+            services.AddTransient<IVariantRepository, VariantRepository>();
         }
     }
 }

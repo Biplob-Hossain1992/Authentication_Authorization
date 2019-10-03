@@ -29,6 +29,9 @@ namespace CRUDOperation.Models
         public virtual Stock Stock { get; set; }
         //public List<ProductOrder> Orders { get; set; }
 
+        public long? VariantId { get; set; }
+        public virtual Variant Variant { get; set; }
+
 
     }
 }

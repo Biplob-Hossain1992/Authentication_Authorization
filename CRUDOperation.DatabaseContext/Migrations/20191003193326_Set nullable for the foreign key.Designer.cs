@@ -4,14 +4,16 @@ using CRUDOperation.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CRUDOperation.DatabaseContext.Migrations
 {
     [DbContext(typeof(CRUDOperationDbContext))]
-    partial class CRUDOperationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191003193326_Set nullable for the foreign key")]
+    partial class Setnullablefortheforeignkey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
