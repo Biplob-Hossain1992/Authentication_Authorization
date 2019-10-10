@@ -61,6 +61,7 @@ namespace CRUDOperation.WebApp.Controllers.API
         }
 
         [HttpGet("{id}")]
+        //[AcceptVerbs, HttpGet]
         public IActionResult GetProductById(long id)
         {
             var product = _productManager.GetById(id);
@@ -114,7 +115,7 @@ namespace CRUDOperation.WebApp.Controllers.API
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(long id)
+        public IActionResult DeleteAPI(long id)
         {
             var product = _productManager.GetById(id);
             if (product == null)

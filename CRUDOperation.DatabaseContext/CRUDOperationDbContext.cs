@@ -9,18 +9,18 @@ using System.Text;
 
 namespace CRUDOperation.DatabaseContext
 {
-    public class CRUDOperationDbContext:IdentityDbContext<IdentityUser> //use for authentication
+    public class CRUDOperationDbContext : IdentityDbContext<IdentityUser> //use for authentication
     {
         public long CurrentUserId { get; set; }
 
-        public CRUDOperationDbContext(DbContextOptions options):base(options)
+        public CRUDOperationDbContext(DbContextOptions options) : base(options)
         {
 
         }
 
         public CRUDOperationDbContext()
         {
-                
+
         }
         public DbSet<Customer> Customers { get; set; }
 
@@ -44,8 +44,18 @@ namespace CRUDOperation.DatabaseContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);//used for authentication
-            modelBuilder.Entity<Product>().HasQueryFilter(p => p.IsActive);
-        }
+            modelBuilder.Entity<Product>()
+                .HasQueryFilter(p => p.IsActive);
 
+
+            modelBuilder.Entity<Category>(category =>
+            {
+                category.HasMany(c => c.Childs)
+                .WithOne(c => c.Parent)
+                .HasForeignKey(c => c.ParentId);
+
+            });
+
+        }
     }
 }

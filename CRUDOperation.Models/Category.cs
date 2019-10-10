@@ -16,7 +16,7 @@ namespace CRUDOperation.Models
         public long Id { get; set; }
         public string Name { get; set; }
 
-        public long? ParentId { get; set; }
+        public long? ParentId { get; set; } //ParentId is nullable, because top-level categories have no parent.
         public virtual Category Parent { get; set; }
 
         [InverseProperty("Parent")]

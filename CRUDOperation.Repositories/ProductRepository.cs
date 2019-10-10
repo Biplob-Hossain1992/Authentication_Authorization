@@ -29,6 +29,7 @@ namespace CRUDOperation.Repositories
                       .ToList();
         }
 
+
         public List<Product> GetByCategory(int categoryId) /*Dropdown List Binding*/
         {
             return _db.Products

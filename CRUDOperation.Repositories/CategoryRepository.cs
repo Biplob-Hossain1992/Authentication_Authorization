@@ -17,6 +17,10 @@ namespace CRUDOperation.Repositories
         {
             _db = dbContext as CRUDOperationDbContext;
         }
-        
+
+        public ICollection<Category> GetAllSubCategory()
+        {
+            return _db.Categories.ToList();
+        }
     }
 }

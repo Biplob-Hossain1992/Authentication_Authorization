@@ -1,0 +1,22 @@
+<div>
+    <h4>Product Entry</h4>
+</div>
+<div>
+    <select [(ngModel)] = "product.categoryId">
+        <option value="">Select...</option>
+        <option value="1">Electronics</option>
+        <option value="2">Furnitures</option>
+      </select>
+      <input type="text" name="name" [(ngModel)] ="product.name"/>
+      <br/>
+      <input type="number" name="price" [(ngModel)] ="product.price"/>
+      <br/>
+      <input type="checkbox" name="isActive" [(ngModel)] ="product.isActive"/>
+      <br/>
+      <input type="button" value="Save" (click) = "save()" />
+</div>
+
+<div>
+    {{message}}
+</div>
+

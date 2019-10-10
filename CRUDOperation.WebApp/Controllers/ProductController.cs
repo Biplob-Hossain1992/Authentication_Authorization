@@ -121,6 +121,7 @@ namespace CRUDOperation.WebApp.Controllers
             var category = _categoryManager.GetAll();
             ViewBag.SelectList = new SelectList(category, "Id", "Name", selectList);
         }
+
         public IActionResult Edit(int? id)
         {
 
