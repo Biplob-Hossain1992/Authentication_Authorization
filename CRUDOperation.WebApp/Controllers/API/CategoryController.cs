@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using CRUDOperation.Abstractions.BLL;
 using CRUDOperation.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRUDOperation.WebApp.Controllers.API
 {
+    [EnableCors("AllowAll")]
     [Route("api/categories")]
     public class CategoryController : Controller
     {

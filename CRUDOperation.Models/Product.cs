@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace CRUDOperation.Models
 {
     public class Product
     {
-        public Product()
-        {
-                
-        }
+        
         public long Id { get; set; }
 
         [Required(ErrorMessage = "Please Enter the Product Name!")]
@@ -26,11 +24,18 @@ namespace CRUDOperation.Models
         public byte[] ImageUrl { get; set; }
 
         public string ImagePath { get; set; }
+
+        public long? StockId { get; set; }
+        [ForeignKey("StockId")]
         public virtual Stock Stock { get; set; }
+
+        //public double InStock { get; set; }
         //public List<ProductOrder> Orders { get; set; }
 
         public long? VariantId { get; set; }
         public virtual Variant Variant { get; set; }
+
+        
 
 
     }

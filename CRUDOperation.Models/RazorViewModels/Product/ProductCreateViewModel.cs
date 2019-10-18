@@ -20,7 +20,7 @@ namespace CRUDOperation.Models.RazorViewModels.Product
         public virtual List<Category> CategoyList { get; set; }
         public string CategoryName { get; set; }
         public byte[] ImageUrl { get; set; }
-
+        
         public string ImagePath { get; set; }
 
         [NotMapped]

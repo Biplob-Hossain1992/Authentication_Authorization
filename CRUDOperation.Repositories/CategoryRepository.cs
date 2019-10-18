@@ -22,5 +22,25 @@ namespace CRUDOperation.Repositories
         {
             return _db.Categories.ToList();
         }
+
+        public override ICollection<Category> GetAll()
+        {
+            return _db.Categories
+                .Include(c => c.Products)
+                .Include(c => c.Parent)
+                .ToList();
+        }
+
+        //public override Category GetById(long id)
+        //{
+        //    var category = _db.Categories
+        //        .Include(c => c.Parent)
+        //        .Include(c => c.Products)
+        //        .ToList();
+        //    var aCategory = category
+        //        .Where(c => c.Id == id)
+        //        .FirstOrDefault();
+        //    return aCategory;
+        //}
     }
 }

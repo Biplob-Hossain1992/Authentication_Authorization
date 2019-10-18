@@ -76,11 +76,15 @@ namespace CRUDOperation.DatabaseContext.Migrations
 
                     b.Property<double>("Price");
 
+                    b.Property<long?>("StockId");
+
                     b.Property<long?>("VariantId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("StockId");
 
                     b.HasIndex("VariantId");
 
@@ -116,8 +120,7 @@ namespace CRUDOperation.DatabaseContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId")
-                        .IsUnique();
+                    b.HasIndex("ProductId");
 
                     b.ToTable("Stocks");
                 });
@@ -320,6 +323,10 @@ namespace CRUDOperation.DatabaseContext.Migrations
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("CRUDOperation.Models.Stock", "Stock")
+                        .WithMany()
+                        .HasForeignKey("StockId");
+
                     b.HasOne("CRUDOperation.Models.Variant", "Variant")
                         .WithMany("Products")
                         .HasForeignKey("VariantId");
@@ -328,8 +335,8 @@ namespace CRUDOperation.DatabaseContext.Migrations
             modelBuilder.Entity("CRUDOperation.Models.Stock", b =>
                 {
                     b.HasOne("CRUDOperation.Models.Product", "Product")
-                        .WithOne("Stock")
-                        .HasForeignKey("CRUDOperation.Models.Stock", "ProductId")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

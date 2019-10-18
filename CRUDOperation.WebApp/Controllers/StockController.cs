@@ -84,93 +84,64 @@ namespace CRUDOperation.WebApp.Controllers
             var product = _productManager.GetAll();
             ViewBag.SelectList = new SelectList(product, "Id", "Name", selectList);
         }
-        //public IActionResult Edit(int? id)
-        //{
+        public IActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var stock = _stockManager.GetById((Int64)id);
+            PopulateDropdownList(stock.ProductId);
+            StockCreateViewModel stockCreateViewModel = _mapper.Map<StockCreateViewModel>(stock);
+            if (stock == null)
+            {
+                return NotFound();
+            }
+            stockCreateViewModel.StockList = _stockManager.GetAll().ToList();
+            return View(stock);
 
-        //    var stock = _stockManager.GetById((Int64)id);
-        //    if (stock == null)
-        //    {
-        //        return NotFound();
-        //    }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, [Bind("Id,Quantity,Unit,ProductId,ProductName")] Stock stock)
+        {
+            if (id != stock.Id)
+            {
+                return NotFound();
+            }
 
-        //    PopulateDropdownList(stock.ProductId);
+            PopulateDropdownList(stock.ProductId);
 
-        //    var stockCreateViewModel = new StockCreateViewModel();
+            if (ModelState.IsValid)
+            {
+                bool isUpdated = _stockManager.Update(stock);
+                if (isUpdated)
+                {
+                    var stocks = _stockManager.GetAll();
+                    ViewBag.SuccessMessage = "Stock Updated Successfully!";
+                    return View("Index", stocks);
+                }
+            }
+            return View(stock);
+        }
 
-        //    stockCreateViewModel.StockList = _stockManager.GetAll().ToList();
+        public IActionResult Delete(int id)
+        {
+            var stock = _stockManager.GetById(id);
+            if (ModelState.IsValid)
+            {
+                bool isDeleted = _stockManager.Delete(stock);
+                if (isDeleted)
+                {
+                    var stocks = _stockManager.GetAll();
+                    ViewBag.SuccessMessage = "Data Deleted Successfully.!";
+                    return View("Index", stocks);
+                }
 
-        //    stockCreateViewModel.Name = stock.Name;
-        //    stockCreateViewModel.Quantity = stock.Quantity;
-
-
-        //    stockCreateViewModel.Product = stock.Product;
-        //    stockCreateViewModel.ProductId = Convert.ToInt32(stock.ProductId);
-        //    return View(/*"Create",productCreateViewModel*/ stock);
-        //}
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult Edit(int id, [Bind("Id,Name,Price,ExpireDate,IsActive,CategoryId,CategoryName")] Product product)
-        //{
-        //    if (id != product.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    PopulateDropdownList(product.CategoryId);
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        bool isUpdated = _productManager.Update(product);
-        //        if (isUpdated)
-        //        {
-        //            var products = _productManager.GetAll();
-        //            ViewBag.SuccessMessage = "Updated Successfully!";
-        //            return View("Index", products);
-        //        }
-        //    }
-        //    return View(product);
-        //}
-
-        ////public IActionResult Delete(int? id)
-        ////{
-        ////    if (id == null)
-        ////    {
-        ////        return NotFound();
-        ////    }
-
-        ////    var product = _productManager.GetById((Int64)id);
-
-        ////    if (product == null)
-        ////    {
-        ////        return NotFound();
-        ////    }
-        ////    return View(product);
-        ////}
-
-        ////[HttpPost, ActionName("Delete")]
-        ////[ValidateAntiForgeryToken]
-
-        //public IActionResult Delete(int id)
-        //{
-        //    var product = _productManager.GetById(id);
-        //    if (ModelState.IsValid)
-        //    {
-        //        bool isDeleted = _productManager.Delete(product);
-        //        if (isDeleted)
-        //        {
-        //            var products = _productManager.GetAll();
-        //            ViewBag.SuccessMessage = "Data Deleted Successfully.!";
-        //            return View("Index", products);
-        //        }
-
-        //    }
-        //    return RedirectToAction(nameof(Index));
-        //}
+            }
+            return RedirectToAction(nameof(Index));
+        }
 
         ////private bool ProductExists(int id)
         ////{

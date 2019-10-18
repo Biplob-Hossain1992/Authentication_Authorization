@@ -30,36 +30,60 @@
         <tbody>
             @foreach (var product in Model)
             {
-                <tr class="text-center">
-                    <td>@product.Name</td>
-                    <td>@product.Price</td>
-                    <td>@product.ExpireDate</td>
-                    <td>@product.IsActive</td>
-                    <td>@product.Category.Name</td>
-                    <td>@product.Stock</td>
+            <tr class="text-center">
+                <td>@product.Name</td>
+                <td>@product.Price</td>
+                <td>@product.ExpireDate</td>
+                <td>@product.IsActive</td>
+                @{ 
+                    //TODO Sub category name showing
+                }
+                <td>
+                    @if (product.Category.ParentId != null)
+                    {
+                        @(product.Category.Parent.Name+ ">" + product.Category.Name);
+                    }
+                    else
+                    {
+                        @product.Category.Name;
+                    }
+                </td>
+                @*<td>@product.Category.Name</td>*@
+                @{
+                    if (product.Stock == null)
+                    {
+                        <td>0</td>
+                    }
+                    else
+                    {
+                        <td>@product.Stock.Quantity</td>
+                    }
+                }
 
-                    <td style="width:60px;">
-                        @{ @*Display Image*@
 
-                            if (product.ImageUrl != null)
-                            {
-                                String img64 = Convert.ToBase64String(product.ImageUrl);
-                                String img64url = string.Format("data:Image/" + product.ImageUrl + ";base64,{0}", img64);
 
-                                <img src="@img64url" style="height:50px; width: 50px;" />
-                            }
-                            else
-                            {
-                                <img src="~/img/default.jpg" style="height:50px; width: 50px;" />
-                            }
-                        }
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-success"><span><strong><i class="fa fa-edit"> Edit</i></strong></span></a>
-                        <a asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger" onclick="return confirm('Are you sure ,You want to delete ? Product : @product.Name')" id="Delete"><span><i class="fa fa-trash-o"><strong> Delete</strong></i></span></a>
-                        <a asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary"><span><i class="fa fa-align-justify"><strong> Details</strong></i></span></a>
-                    </td>
-                </tr>
+                <td style="width:60px;">
+                    @{ @*Display Image*@
+
+                    if (product.ImageUrl != null)
+                    {
+                        String img64 = Convert.ToBase64String(product.ImageUrl);
+                        String img64url = string.Format("data:Image/" + product.ImageUrl + ";base64,{0}", img64);
+
+                        <img src="@img64url" style="height:50px; width: 50px;" />
+                    }
+                    else
+                    {
+                        <img src="~/img/default.jpg" style="height:50px; width: 50px;" />
+                    }
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-success"><span><strong><i class="fa fa-edit"> Edit</i></strong></span></a>
+                    <a asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger" onclick="return confirm('Are you sure ,You want to delete ? Product : @product.Name')" id="Delete"><span><i class="fa fa-trash-o"><strong> Delete</strong></i></span></a>
+
+                </td>
+            </tr>
             }
         </tbody>
     </table>

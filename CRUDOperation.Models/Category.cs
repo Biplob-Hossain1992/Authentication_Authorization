@@ -20,6 +20,7 @@ namespace CRUDOperation.Models
         public virtual Category Parent { get; set; }
 
         [InverseProperty("Parent")]
+        [JsonIgnore]
         public virtual List<Category> Childs { get; set; }
 
         [JsonIgnore] //used for Jsonloop Handling ignore

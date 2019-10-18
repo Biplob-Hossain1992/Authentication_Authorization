@@ -84,7 +84,7 @@ namespace CRUDOperation.WebApp.Controllers
             {
                 var product = _mapper.Map<Product>(model); //AutoMapper
 
-               //Save Images start
+                /*Save Images start*/
                 foreach (var item in ImageUrl)
                 {
                     if(item.Length>0)
@@ -103,7 +103,7 @@ namespace CRUDOperation.WebApp.Controllers
                     }
                     
                 }
-                //Image save End
+                /*Image save End*/
             }
             else
             {

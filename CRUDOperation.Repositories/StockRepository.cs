@@ -29,7 +29,9 @@ namespace CRUDOperation.Repositories
         }
         public List<Stock> GetByProduct(int productId) /*Dropdown List Binding*/
         {
-            return _db.Stocks.Where(s => s.ProductId == productId).ToList();
+            return _db.Stocks
+                .Where(s => s.ProductId == productId)
+                .ToList();
         }
     }
 }

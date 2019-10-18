@@ -21,7 +21,7 @@ namespace CRUDOperation.WebApp
             /* Using for Regisration user...login and logout */
 
             services.AddDbContext<CRUDOperationDbContext>(options =>
-            options.UseSqlServer("Server=(local);Database=CRUDOperation_Auth; Integrated Security=true"));
+            options.UseSqlServer("Server=(local);Database=CRUDOperation_Authentication; Integrated Security=true"));
             services.AddDefaultIdentity<IdentityUser>()
                 .AddDefaultUI()
                 .AddEntityFrameworkStores<CRUDOperationDbContext>();
@@ -67,6 +67,19 @@ namespace CRUDOperation.WebApp
 
             /*-------End-----------*/
             //services.AddMvc();
+
+            /*-------add Policy for browser accept all CORS(Cross Origin Resource Sharing)-----------*/
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", builder =>
+                {
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyOrigin();
+                    builder.AllowAnyMethod();
+                });
+            });
+            /*-------End-----------*/
+
             services.AddMvc()
                 .AddMvcOptions
                 (options =>
@@ -92,6 +105,8 @@ namespace CRUDOperation.WebApp
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
+
+            app.UseCors("AllowAll"); //add Policy for browser accept all CORS(Cross Origin Resource Sharing)
 
             //app.UseMvc(routes =>
             //{

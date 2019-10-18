@@ -90,10 +90,11 @@
     border-radius: 4px;
     /*border: 1px solid #eee;*/
     border: 1px solid rgb(20, 140, 170);
-    background-color: #fafafa;
-    height: 100px;
-    width: 200px;
-    margin: 0 8px 16px;
+    /*background-color: #fafafa;*/
+    background-color:#00ff80;
+    height: 150px;
+    width: 170px;
+    margin: 100px 8px 16px;
     padding: 16px;
     display: flex;
     flex-direction: row;
@@ -330,20 +331,17 @@
 <div class="content" role="main">
 
   <!-- Highlight Card -->
-  <div class="card-container">
-      <div class="card">
+  <div class="container">
+      <div class="row">
           <product-entry (onSaved) ="setProduct($event)"></product-entry>
           
       </div>
-      <div class="card">
-        Name: {{product.name}}
-        <br/>
-        Price: {{product.price}}
-        <br/>
-        IsActice: {{product.isActive}}
-        <br/>
-        CategoryId: {{product.categoryId}}
+      <div class="card-container">
+          <div class="card" *ngFor="let p of products">
+              <product-info [product]="p"></product-info>
+          </div>
       </div>
+      
     </div>
 
 </div>

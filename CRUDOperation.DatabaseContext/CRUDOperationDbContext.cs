@@ -38,7 +38,7 @@ namespace CRUDOperation.DatabaseContext
         {
             optionsBuilder
                 .UseLazyLoadingProxies(true)
-                .UseSqlServer("Server=(local);Database=CRUDOperation_Auth; Integrated Security=true");
+                .UseSqlServer("Server=(local);Database=CRUDOperation_Authentication; Integrated Security=true");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -47,14 +47,29 @@ namespace CRUDOperation.DatabaseContext
             modelBuilder.Entity<Product>()
                 .HasQueryFilter(p => p.IsActive);
 
+            //modelBuilder.Entity<Product>()
+            //    .HasOne(p => p.Stock)
+            //    .WithOne(p => p.Product).IsRequired(false);
 
-            modelBuilder.Entity<Category>(category =>
-            {
-                category.HasMany(c => c.Childs)
+
+            //modelBuilder.Entity<Stock>()
+            //    .HasOne(p => p.Product)
+            //    .WithOne(p => p.Stock).IsRequired(false);
+
+
+            //modelBuilder.Entity<Category>(category =>
+            //{
+            //    category.HasMany(c => c.Childs)
+            //    .WithOne(c => c.Parent)
+            //    .HasForeignKey(c => c.ParentId);
+
+            //});
+
+            modelBuilder.Entity<Category>()
+            
+                .HasMany(c => c.Childs)
                 .WithOne(c => c.Parent)
                 .HasForeignKey(c => c.ParentId);
-
-            });
 
         }
     }

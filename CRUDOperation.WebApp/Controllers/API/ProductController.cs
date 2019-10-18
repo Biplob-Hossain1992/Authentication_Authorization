@@ -7,11 +7,13 @@ using CRUDOperation.Abstractions.BLL;
 using CRUDOperation.Models;
 using CRUDOperation.Models.APIViewModels;
 using CRUDOperation.Models.RazorViewModels.Product;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRUDOperation.WebApp.Controllers.API
 {
     [ApiController]
+    [EnableCors("AllowAll")]
     [Route("api/products")]
     //[Route("api/products.{format}"), FormatFilter]
     public class ProductController : ControllerBase

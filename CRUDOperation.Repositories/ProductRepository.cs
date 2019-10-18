@@ -26,6 +26,7 @@ namespace CRUDOperation.Repositories
         {
             return _db.Products
                       .Include(c => c.Category)
+                      .Include(c => c.Stock)
                       .ToList();
         }
 
