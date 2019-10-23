@@ -16,8 +16,8 @@ namespace CRUDOperation.Models.RazorViewModels.Product
         public bool IsActive { get; set; }
 
         public int CategoryId { get; set; }
-        public virtual Category Category { get; set; }
-        public virtual List<Category> CategoyList { get; set; }
+        public virtual Models.Category Category { get; set; }
+        public virtual List<Models.Category> CategoryList { get; set; }
         public string CategoryName { get; set; }
         public byte[] ImageUrl { get; set; }
         

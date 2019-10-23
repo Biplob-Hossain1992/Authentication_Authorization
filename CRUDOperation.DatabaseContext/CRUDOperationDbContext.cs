@@ -45,7 +45,7 @@ namespace CRUDOperation.DatabaseContext
         {
             base.OnModelCreating(modelBuilder);//used for authentication
             modelBuilder.Entity<Product>()
-                .HasQueryFilter(p => p.IsActive);
+                .HasQueryFilter(p => p.IsActive); //use for isActive filtering
 
             //modelBuilder.Entity<Product>()
             //    .HasOne(p => p.Stock)
@@ -57,19 +57,13 @@ namespace CRUDOperation.DatabaseContext
             //    .WithOne(p => p.Stock).IsRequired(false);
 
 
-            //modelBuilder.Entity<Category>(category =>
-            //{
-            //    category.HasMany(c => c.Childs)
-            //    .WithOne(c => c.Parent)
-            //    .HasForeignKey(c => c.ParentId);
-
-            //});
-
-            modelBuilder.Entity<Category>()
-            
-                .HasMany(c => c.Childs)
+            modelBuilder.Entity<Category>(category =>
+            {
+                category.HasMany(c => c.Childs)
                 .WithOne(c => c.Parent)
                 .HasForeignKey(c => c.ParentId);
+
+            });
 
         }
     }

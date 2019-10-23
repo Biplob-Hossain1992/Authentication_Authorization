@@ -7,86 +7,89 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CRUDOperation.DatabaseContext;
 using CRUDOperation.Models;
+using CRUDOperation.Abstractions.BLL;
+using AutoMapper;
+using CRUDOperation.Models.RazorViewModels.Category;
 
 namespace CRUDOperation.WebApp.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly CRUDOperationDbContext _context;
+        
 
-        public CategoryController(CRUDOperationDbContext context)
+        private readonly ICategoryManager _categoryManager;
+        private readonly IMapper _mapper;
+
+        public CategoryController(ICategoryManager categoryManager, IMapper mapper)
         {
-            _context = context;
+            _categoryManager = categoryManager;
+            _mapper = mapper;
         }
 
         // GET: Category
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Categories.ToListAsync());
+            
+            var model = _categoryManager.GetAll();
+
+            return View(model);
         }
 
-        // GET: Category/Details/5
-        public async Task<IActionResult> Details(long? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            return View(category);
-        }
-
-        // GET: Category/Create
+        // GET: Stock/Details/5
         public IActionResult Create()
         {
-            return View();
+            var model = new CategoryCreateViewModel();
+        
+            return View(model);
         }
 
-        // POST: Category/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Category category)
+
+        public IActionResult Create(CategoryCreateViewModel model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(category);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var category = _mapper.Map<Category>(model); //AutoMapper
+                
+                //if(model.ParentId == null)
+                //{
+                //    model.ParentId = 0;
+                //}
+                bool isAdded = _categoryManager.Add(category);
+                if (isAdded)
+                {
+                    ViewBag.SuccessMessage = "Saved Successfully!";
+                }
+
+
             }
-            return View(category);
+            else
+            {
+                ViewBag.ErrorMessage = "Operation Failed!";
+            }
+            return View(model);
         }
 
-        // GET: Category/Edit/5
-        public async Task<IActionResult> Edit(long? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories.FindAsync(id);
+            var category = _categoryManager.GetById((Int64)id);
+            
+            CategoryCreateViewModel categoryCreateViewModel = _mapper.Map<CategoryCreateViewModel>(category);
             if (category == null)
             {
                 return NotFound();
             }
             return View(category);
-        }
 
-        // POST: Category/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Name")] Category category)
+        public IActionResult Edit(int id, [Bind("Id,Quantity,Unit,ProductId,ProductName")] Category category)
         {
             if (id != category.Id)
             {
@@ -95,59 +98,53 @@ namespace CRUDOperation.WebApp.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+                bool isUpdated = _categoryManager.Update(category);
+                if (isUpdated)
                 {
-                    _context.Update(category);
-                    await _context.SaveChangesAsync();
+                    var categories = _categoryManager.GetAll();
+                    ViewBag.SuccessMessage = "Stock Updated Successfully!";
+                    return View("Index", categories);
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CategoryExists(category.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
             }
             return View(category);
         }
 
-        // GET: Category/Delete/5
-        public async Task<IActionResult> Delete(long? id)
+        public IActionResult Delete(int id)
         {
-            if (id == null)
+            var category = _categoryManager.GetById(id);
+            if (ModelState.IsValid)
             {
-                return NotFound();
+                bool isDeleted = _categoryManager.Delete(category);
+                if (isDeleted)
+                {
+                    var categories = _categoryManager.GetAll();
+                    ViewBag.SuccessMessage = "Data Deleted Successfully.!";
+                    return View("Index", categories);
+                }
+
             }
-
-            var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            return View(category);
-        }
-
-        // POST: Category/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(long id)
-        {
-            var category = await _context.Categories.FindAsync(id);
-            _context.Categories.Remove(category);
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CategoryExists(long id)
-        {
-            return _context.Categories.Any(e => e.Id == id);
-        }
+        ////private bool ProductExists(int id)
+        ////{
+        ////    return _productManager.ProductExists(id);
+        ////}
+
+        //public IActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var product = _productManager.GetById((Int64)id);
+
+        //    if (product == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(product);
+        //}
     }
 }

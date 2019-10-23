@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CRUDOperation.Models;
 using CRUDOperation.Models.APIViewModels;
+using CRUDOperation.Models.RazorViewModels.Category;
 using CRUDOperation.Models.RazorViewModels.Customer;
 using CRUDOperation.Models.RazorViewModels.Product;
 using CRUDOperation.Models.RazorViewModels.Stock;
@@ -22,6 +23,9 @@ namespace CRUDOperation.Configurations.AutoMapperConfigurations
             CreateMap<Stock, StockCreateViewModel>();
 
             CreateMap<Product, ProductDto>();
+
+            CreateMap<Category, CategoryCreateViewModel>();
+            CreateMap<CategoryCreateViewModel, Category>();
         }
     }
 }
