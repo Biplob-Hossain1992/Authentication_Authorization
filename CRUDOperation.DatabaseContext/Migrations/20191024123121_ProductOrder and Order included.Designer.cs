@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRUDOperation.DatabaseContext.Migrations
 {
     [DbContext(typeof(CRUDOperationDbContext))]
-    [Migration("20191017091710_added stock filed in product model")]
-    partial class addedstockfiledinproductmodel
+    [Migration("20191024123121_ProductOrder and Order included")]
+    partial class ProductOrderandOrderincluded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -57,6 +57,21 @@ namespace CRUDOperation.DatabaseContext.Migrations
                     b.ToTable("Customers");
                 });
 
+            modelBuilder.Entity("CRUDOperation.Models.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("OrderDate");
+
+                    b.Property<string>("OrderNo");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Order");
+                });
+
             modelBuilder.Entity("CRUDOperation.Models.Product", b =>
                 {
                     b.Property<long>("Id")
@@ -70,8 +85,6 @@ namespace CRUDOperation.DatabaseContext.Migrations
                     b.Property<string>("ImagePath");
 
                     b.Property<byte[]>("ImageUrl");
-
-                    b.Property<double>("InStock");
 
                     b.Property<bool>("IsActive");
 
@@ -93,6 +106,19 @@ namespace CRUDOperation.DatabaseContext.Migrations
                     b.HasIndex("VariantId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("CRUDOperation.Models.ProductOrder", b =>
+                {
+                    b.Property<long>("ProductId");
+
+                    b.Property<int>("OrderId");
+
+                    b.HasKey("ProductId", "OrderId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("ProductOrder");
                 });
 
             modelBuilder.Entity("CRUDOperation.Models.Size", b =>
@@ -124,8 +150,7 @@ namespace CRUDOperation.DatabaseContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId")
-                        .IsUnique();
+                    b.HasIndex("ProductId");
 
                     b.ToTable("Stocks");
                 });
@@ -266,11 +291,9 @@ namespace CRUDOperation.DatabaseContext.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128);
+                    b.Property<string>("ProviderKey");
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -301,11 +324,9 @@ namespace CRUDOperation.DatabaseContext.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(128);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Value");
 
@@ -337,11 +358,24 @@ namespace CRUDOperation.DatabaseContext.Migrations
                         .HasForeignKey("VariantId");
                 });
 
+            modelBuilder.Entity("CRUDOperation.Models.ProductOrder", b =>
+                {
+                    b.HasOne("CRUDOperation.Models.Order", "Order")
+                        .WithMany("Products")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("CRUDOperation.Models.Product", "Product")
+                        .WithMany("Orders")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("CRUDOperation.Models.Stock", b =>
                 {
                     b.HasOne("CRUDOperation.Models.Product", "Product")
-                        .WithOne()
-                        .HasForeignKey("CRUDOperation.Models.Stock", "ProductId")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

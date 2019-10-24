@@ -30,7 +30,7 @@ namespace CRUDOperation.Models
         public virtual Stock Stock { get; set; }
 
         //public double InStock { get; set; }
-        //public List<ProductOrder> Orders { get; set; }
+        public virtual List<ProductOrder> Orders { get; set; } //used for define relationship in dbcontext onmodel creating
 
         public long? VariantId { get; set; }
         public virtual Variant Variant { get; set; }

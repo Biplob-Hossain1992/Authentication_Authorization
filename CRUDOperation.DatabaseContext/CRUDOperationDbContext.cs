@@ -64,7 +64,20 @@ namespace CRUDOperation.DatabaseContext
                 .HasForeignKey(c => c.ParentId);
 
             });
+            /*Product order relationship---------Start-------------*/
+            modelBuilder.Entity<ProductOrder>().HasKey(c => new { c.ProductId, c.OrderId });
 
+            modelBuilder.Entity<ProductOrder>()
+                .HasOne(pt => pt.Product)
+                .WithMany(p => p.Orders)
+                .HasForeignKey(pt => pt.ProductId);
+
+            modelBuilder.Entity<ProductOrder>()
+                .HasOne(pt => pt.Order)
+                .WithMany(t => t.Products)
+                .HasForeignKey(pt => pt.OrderId);
+
+            /*Product order relationship---------End-------------*/
         }
     }
 }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRUDOperation.DatabaseContext.Migrations
 {
     [DbContext(typeof(CRUDOperationDbContext))]
-    [Migration("20191017103023_remove InStock field from product model")]
-    partial class removeInStockfieldfromproductmodel
+    [Migration("20191024121133_Initial Create")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -122,8 +122,7 @@ namespace CRUDOperation.DatabaseContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId")
-                        .IsUnique();
+                    b.HasIndex("ProductId");
 
                     b.ToTable("Stocks");
                 });
@@ -264,11 +263,9 @@ namespace CRUDOperation.DatabaseContext.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128);
+                    b.Property<string>("ProviderKey");
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -299,11 +296,9 @@ namespace CRUDOperation.DatabaseContext.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(128);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Value");
 
@@ -338,8 +333,8 @@ namespace CRUDOperation.DatabaseContext.Migrations
             modelBuilder.Entity("CRUDOperation.Models.Stock", b =>
                 {
                     b.HasOne("CRUDOperation.Models.Product", "Product")
-                        .WithOne()
-                        .HasForeignKey("CRUDOperation.Models.Stock", "ProductId")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
