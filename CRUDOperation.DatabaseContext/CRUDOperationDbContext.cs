@@ -57,13 +57,13 @@ namespace CRUDOperation.DatabaseContext
             //    .WithOne(p => p.Stock).IsRequired(false);
 
 
-            modelBuilder.Entity<Category>(category =>
-            {
-                category.HasMany(c => c.Childs)
-                .WithOne(c => c.Parent)
-                .HasForeignKey(c => c.ParentId);
+            //modelBuilder.Entity<Category>(category =>
+            //{
+            //    category.HasMany(c => c.Childs)
+            //    .WithOne(c => c.Parent)
+            //    .HasForeignKey(c => c.ParentId);
 
-            });
+            //});
             /*Product order relationship---------Start-------------*/
             modelBuilder.Entity<ProductOrder>().HasKey(c => new { c.ProductId, c.OrderId });
 

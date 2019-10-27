@@ -39,7 +39,7 @@
                     //TODO Sub category name showing
                 }
                 <td>
-                    @if (product.Category.ParentId != null)
+                    @if (product.Category.ParentId != 0)
                     {
                         @(product.Category.Parent.Name + ">" + product.Category.Name);
                     }
